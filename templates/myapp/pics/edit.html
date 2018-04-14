@@ -1,0 +1,26 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图册修改表单</title>
+</head>
+<body>
+	<center>
+		{% include "myapp/pics/header.html" %}
+		<h3>修改相册信息</h3>
+		<form method="post" action="{% url 'picsUpdate' %}" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{{pic.id}}">
+			{% csrf_token %}
+			标题：<input type="text" name="mypicname" value="{{pic.name}}">
+			<br><br>
+			图片：<input type="file" name="mypic">
+			<br><br>
+			<input type="submit" value="修改">
+			<input type="reset" value="重置">
+			<br><br>
+			<img src="/static/pics/{{pic.name}}"/>
+		</form>
+	</center>
+</body>
+</html>

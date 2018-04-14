@@ -1,0 +1,58 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>相册信息浏览</title>
+	<style type="text/css">
+		table{text-align: center;border-collapse: collapse;}
+		table,th,td{border: 1px solid black;}
+	</style>
+</head>
+<body>
+	<center>
+			{% include "myapp/pics/header.html" %}
+			<h3>浏览相册图片信息</h3>
+			<table width="800px">
+				<tr>
+					<th>id号</th>
+					<th>标题</th>
+					<th>图片</th>
+					<th>添加(修改)时间</th>
+					<th>操作</th>
+				</tr>
+				{% for pic in picslist %}
+					<tr>
+						<td>{{pic.id}}</td>
+						<td>{{pic.name}}</td>
+						<td><img src="/static/pics/{{pic.name}}"/></td>
+						<td>{{pic.addtime|date:'Y-m-d  h:i:s'}}</td>
+						<td>
+							<a href="{% url 'picsEdit' pic.id %}">编辑</a>
+							<a href="javascript:doDel('{% url 'picsDelete' pic.id %}');">删除</a>     
+							<!--    这里{% url 'picsDelete' pic.id %}两端一定要加上引号！！！！！  --> 
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+			<br>
+			{% for i in plist %}
+                {% if i == pIndex %}
+                    <b style="color:red">{{i}}</b>
+                {% else %}
+                    <a href="{% url 'pics' i %}">{{i}}</a>
+                {% endif %}
+            {% endfor %}
+	</center>
+
+	<!-- js样式  -->
+	<script type="text/javascript">
+		function doDel(url){
+			if(confirm("确定删除吗？")){
+				//网页跳转
+				window.location = url
+			}
+		}
+	</script>
+</body>
+</html>
